@@ -63,7 +63,7 @@ export default function Home() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} name="rsvp-form" data-netlify="true" data-netlify-honeypot="bot-field" netlify="">
+        <form onSubmit={handleSubmit} name="rsvp-form" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
           <input type="hidden" name="form-name" value="rsvp-form" />
           
           <div className="mb-4">
