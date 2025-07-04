@@ -7,7 +7,7 @@ const Venue = () => {
             <h2 className="text-4xl font-lora text-center mb-8">The Venue</h2>
             
             {/* Ceremony */}
-            <div className="mb-12 p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
+            <div className="mb-12 p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg mx-2 sm:mx-0">
                 <h3 className="text-2xl font-lora text-blue-800 mb-4">Ceremony</h3>
                 <div className="grid md:grid-cols-2 gap-6">
                     <div>
@@ -37,7 +37,7 @@ const Venue = () => {
             </div>
 
             {/* Reception */}
-            <div className="mb-12 p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
+            <div className="mb-12 p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg mx-2 sm:mx-0">
                 <h3 className="text-2xl font-lora text-blue-800 mb-4">Reception</h3>
                 <div className="grid md:grid-cols-2 gap-6">
                     <div>
@@ -65,7 +65,7 @@ const Venue = () => {
             </div>
 
             {/* Getting There */}
-            <div className="mb-12 p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
+            <div className="mb-12 p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg mx-2 sm:mx-0">
                 <h3 className="text-2xl font-lora text-blue-800 mb-4">Getting There</h3>
                 <p className="text-sm mb-4">Port Douglas is located in Tropical North Queensland, about an hour&apos;s scenic drive north of Cairns along the Captain Cook Highway.</p>
 

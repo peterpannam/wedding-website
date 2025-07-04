@@ -39,7 +39,7 @@ export default function Home() {
         />
         <div className="banner-overlay">
           <div className="flex flex-col items-center justify-center my-[20%] mb-[20%] text-center">
-            <h1 className="font-great-vibes text-white text-6xl">Join us on our special day</h1>
+            <h1 className="font-great-vibes text-white text-6xl mx-2 sm:mx-0">Join us on our special day</h1>
             <p className="font-great-vibes text-white text-3xl">Port Douglas, Queensland</p>
             <p className="font-great-vibes text-white text-3xl">20 June 2026</p>
 
