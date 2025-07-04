@@ -1,8 +1,6 @@
 'use client'; 
 
 import { useState } from "react";
-import { db, collection, addDoc } from './firebase';  // Adjust path based on file location
-
 
 export default function Home() {
   const [rsvp, setRsvp] = useState({ name: "", email: "", attending: false });
@@ -17,20 +15,10 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", rsvp);  // Add this log to check if it's triggered
-    try {
-      await addDoc(collection(db, "rsvps"), {
-        name: rsvp.name,
-        email: rsvp.email,
-        attending: rsvp.attending,
-        submittedAt: new Date().toISOString(),
-      });
-      alert("RSVP submitted!");
-      setRsvp({ name: "", email: "", attending: false });
-    } catch (error) {
-      console.error("Error submitting RSVP:", error);
-      alert("Error submitting RSVP. Please try again.");
-    }
+    console.log("Form Submitted:", rsvp);
+    // TODO: Implement new form submission logic here
+    alert("RSVP form submitted! (New backend to be implemented)");
+    setRsvp({ name: "", email: "", attending: false });
   };
   
 

@@ -8,9 +8,9 @@ import Venue from "./components/venue";
 export default function Home() {
   const nextSectionRef = useRef(null);
 
-  const scrollToNextSection = () => {
-    nextSectionRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  // const scrollToNextSection = () => {
+  //   nextSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+  // };
 
   return (
     <div>
@@ -23,16 +23,26 @@ export default function Home() {
         />
         <div className="banner-overlay">
           <div className="flex flex-col items-center justify-center my-[20%] mb-[20%] text-center">
-            <h1 className="font-great-vibes text-white text-6xl">Save the Date</h1>
-            <p className="font-great-vibes text-white text-3xl">Join us in Port Douglas</p>
+            <h1 className="font-great-vibes text-white text-6xl">Join us on our special day</h1>
+            <p className="font-great-vibes text-white text-3xl">Port Douglas, Queensland</p>
             <p className="font-great-vibes text-white text-3xl">20 June 2026</p>
 
             <button
-            onClick={scrollToNextSection}
-            className="mt-8 w-16 h-16 flex items-center justify-center rounded-full  border-2 border-white shadow-lg hover:bg-gray-200 transition"
+              onClick={() => window.location.href = '/rsvp'}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  window.location.href = '/rsvp';
+                }
+              }}
+              className="mt-8 px-10 py-4 bg-white text-gray-800 font-montserrat font-semibold rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 transition duration-300 shadow-lg text-lg cursor-pointer"
+              aria-label="RSVP to the wedding"
+              role="button"
+              tabIndex={0}
             >
-            <FaArrowDown className="text-2xl text-white" />
+              RSVP
             </button>
+
           </div>
         </div>
       </div>
