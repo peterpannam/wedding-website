@@ -19,7 +19,8 @@ const Venue = () => {
                             <div>
                                 <p className="text-gray-600"> Our ceremony will be held at St Mary’s by the Sea, a beautiful heritage-listed chapel located on the waterfront in Port Douglas. 
                                 There is plenty of parking nearby and the venue is within walking distance of many local hotels. 
-                                Please plan to arrive 15–20 minutes early to allow time to find a seat and settle in before the ceremony begins.
+                                Please plan to arrive 15–20 minutes early to allow time to find a seat and settle in before the ceremony begins.<br/>
+                                Join us after the ceremony for cold drinks on the lawn 
                                 </p>
                             </div>
                         </div>
