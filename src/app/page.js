@@ -1,16 +1,32 @@
 'use client';
 import Image from "next/image";
 import weddingBanner from "/public/wedding-banner.jpg";
-import { useRef } from "react";
-import { FaArrowDown } from "react-icons/fa"; // Import arrow icon
+import { useRef, useState } from "react";
 import Venue from "./components/venue";
+import RSVPForm from "./components/RSVPForm";
 
 export default function Home() {
   const nextSectionRef = useRef(null);
+  const [isRSVPOpen, setIsRSVPOpen] = useState(false);
 
   // const scrollToNextSection = () => {
   //   nextSectionRef.current?.scrollIntoView({ behavior: "smooth" });
   // };
+
+  const openRSVP = () => {
+    setIsRSVPOpen(true);
+    // Smooth scroll to the RSVP section
+    setTimeout(() => {
+      const rsvpSection = document.getElementById('rsvp-section');
+      if (rsvpSection) {
+        rsvpSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
+  const closeRSVP = () => {
+    setIsRSVPOpen(false);
+  };
 
   return (
     <div>
@@ -28,11 +44,11 @@ export default function Home() {
             <p className="font-great-vibes text-white text-3xl">20 June 2026</p>
 
             <button
-              onClick={() => window.location.href = '/rsvp'}
+              onClick={openRSVP}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
-                  window.location.href = '/rsvp';
+                  openRSVP();
                 }
               }}
               className="mt-8 px-10 py-4 bg-white text-gray-800 font-montserrat font-semibold rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 transition duration-300 shadow-lg text-lg cursor-pointer"
@@ -46,6 +62,12 @@ export default function Home() {
           </div>
         </div>
       </div>
+      
+      {/* RSVP Section */}
+      <div id="rsvp-section">
+        <RSVPForm isOpen={isRSVPOpen} onClose={closeRSVP} />
+      </div>
+      
       <div ref={nextSectionRef} className="w-full h-screen bg-gray-100 flex justify-center ">
         <Venue />
         
