@@ -7,7 +7,7 @@ export default function RSVPForm({ isOpen, onClose }) {
     people: [{ firstName: "", lastName: "" }],
     email: "",
     phone: "",
-    attending: false,
+    attending: null,
     dietaryRequirements: "",
     songRequest: ""
   });
@@ -70,7 +70,7 @@ export default function RSVPForm({ isOpen, onClose }) {
           'form-name': 'rsvp-form',
           email: rsvp.email,
           phone: rsvp.phone,
-          attending: rsvp.attending ? 'Yes' : 'No',
+          attending: rsvp.attending === true ? 'Yes' : rsvp.attending === false ? 'No' : '',
           dietaryRequirements: rsvp.dietaryRequirements,
           songRequest: rsvp.songRequest,
           ...peopleData
@@ -83,7 +83,7 @@ export default function RSVPForm({ isOpen, onClose }) {
           people: [{ firstName: "", lastName: "" }],
           email: "",
           phone: "",
-          attending: false,
+          attending: null,
           dietaryRequirements: "",
           songRequest: ""
         });
@@ -161,7 +161,7 @@ export default function RSVPForm({ isOpen, onClose }) {
                       placeholder="First name"
                       value={person.firstName}
                       onChange={(e) => handlePersonChange(index, 'firstName', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                       required
                       disabled={isSubmitting}
                     />
@@ -178,7 +178,7 @@ export default function RSVPForm({ isOpen, onClose }) {
                       placeholder="Last name"
                       value={person.lastName}
                       onChange={(e) => handlePersonChange(index, 'lastName', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                       required
                       disabled={isSubmitting}
                     />
@@ -209,7 +209,7 @@ export default function RSVPForm({ isOpen, onClose }) {
                 placeholder="Enter your email address"
                 value={rsvp.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                 required
                 disabled={isSubmitting}
               />
@@ -226,60 +226,80 @@ export default function RSVPForm({ isOpen, onClose }) {
                 placeholder="Enter your phone number"
                 value={rsvp.phone}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                 disabled={isSubmitting}
               />
             </div>
           </div>
 
           <div className="mb-8">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="attending"
-                checked={rsvp.attending}
-                onChange={handleChange}
-                className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                disabled={isSubmitting}
-              />
-              <span className="ml-3 text-lg text-gray-700">
-                I can attend the wedding
-              </span>
-            </label>
+            <h3 className="text-lg font-medium text-gray-700 mb-4">Will you be attending the wedding? *</h3>
+            <div className="space-y-3">
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  name="attending"
+                  value="true"
+                  checked={rsvp.attending === true}
+                  onChange={(e) => setRsvp({...rsvp, attending: e.target.value === 'true'})}
+                  className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300"
+                  disabled={isSubmitting}
+                  required
+                />
+                <span className="ml-3 text-lg text-gray-700">
+                  Yes, I can attend
+                </span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  name="attending"
+                  value="false"
+                  checked={rsvp.attending === false}
+                  onChange={(e) => setRsvp({...rsvp, attending: e.target.value === 'true'})}
+                  className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300"
+                  disabled={isSubmitting}
+                  required
+                />
+                <span className="ml-3 text-lg text-gray-700">
+                  No, I cannot attend
+                </span>
+              </label>
+            </div>
           </div>
 
-          {rsvp.attending && (
+          {rsvp.attending === true && (
             <div className="mb-8 space-y-6">
               <div>
                 <label htmlFor="dietaryRequirements" className="block text-sm font-medium text-gray-700 mb-2">
                   Dietary Requirements
                 </label>
-                <textarea
-                  id="dietaryRequirements"
-                  name="dietaryRequirements"
-                  placeholder="Please let us know of any dietary requirements or allergies"
-                  value={rsvp.dietaryRequirements}
-                  onChange={handleChange}
-                  rows="3"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                  disabled={isSubmitting}
-                />
+                                  <textarea
+                    id="dietaryRequirements"
+                    name="dietaryRequirements"
+                    placeholder="Please let us know of any dietary requirements or allergies"
+                    value={rsvp.dietaryRequirements}
+                    onChange={handleChange}
+                    rows="3"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white"
+                    disabled={isSubmitting}
+                  />
               </div>
 
               <div>
                 <label htmlFor="songRequest" className="block text-sm font-medium text-gray-700 mb-2">
                   Song Request (Spotify)
                 </label>
-                <textarea
-                  id="songRequest"
-                  name="songRequest"
-                  placeholder="What song would you like to dance to on the night?"
-                  value={rsvp.songRequest}
-                  onChange={handleChange}
-                  rows="2"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                  disabled={isSubmitting}
-                />
+                                  <textarea
+                    id="songRequest"
+                    name="songRequest"
+                    placeholder="What song would you like to dance to on the night?"
+                    value={rsvp.songRequest}
+                    onChange={handleChange}
+                    rows="2"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white"
+                    disabled={isSubmitting}
+                  />
               </div>
             </div>
           )}

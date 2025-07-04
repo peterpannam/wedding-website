@@ -68,7 +68,7 @@ export default function Home() {
         <RSVPForm isOpen={isRSVPOpen} onClose={closeRSVP} />
       </div>
       
-      <div ref={nextSectionRef} className="w-full h-screen bg-gray-100 flex justify-center ">
+      <div ref={nextSectionRef} className="w-full bg-gray-100 flex justify-center ">
         <Venue />
         
       </div>
