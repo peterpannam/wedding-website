@@ -126,6 +126,8 @@ export default function RSVPForm({ isOpen, onClose }) {
 
         <form onSubmit={handleSubmit} name="rsvp-form" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" className="bg-gray-50 p-8 rounded-lg shadow-lg">
           <input type="hidden" name="form-name" value="rsvp-form" />
+          {/* Hidden field for Netlify submission title */}
+          <input type="hidden" name="name" value={`${rsvp.people[0].firstName} ${rsvp.people[0].lastName}`.trim()} />
           
           {/* People Section */}
           <div className="mb-8">
@@ -135,7 +137,7 @@ export default function RSVPForm({ isOpen, onClose }) {
               <div key={index} className="mb-6 p-6 border border-gray-200 rounded-lg bg-white">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-lg font-medium text-gray-700">
-                    {index === 0 ? 'Primary Guest' : `Guest ${index + 1}`}
+                    {index === 0 ? 'Your Name' : `Party Member Name`}
                   </h3>
                   {index > 0 && (
                     <button
@@ -193,7 +195,7 @@ export default function RSVPForm({ isOpen, onClose }) {
               disabled={isSubmitting}
               className="w-full bg-gray-200 text-gray-700 py-3 px-4 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border border-gray-300 font-medium"
             >
-              + Add Another Guest
+              + Add Another Party Member
             </button>
           </div>
 
@@ -293,7 +295,7 @@ export default function RSVPForm({ isOpen, onClose }) {
                                   <textarea
                     id="songRequest"
                     name="songRequest"
-                    placeholder="What song would you like to dance to on the night?"
+                    placeholder="Let us know what gets you in the mood to groove?"
                     value={rsvp.songRequest}
                     onChange={handleChange}
                     rows="2"
