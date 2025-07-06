@@ -51,29 +51,45 @@ export default function RSVPForm({ isOpen, onClose }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus(null);
-    
-    // Let the form submit naturally to Netlify
-    // The form will redirect to the success page or handle the submission
-    // We'll reset the form state after a delay to show success message
-    setTimeout(() => {
-      setSubmitStatus('success');
-      setRsvp({
-        people: [{ firstName: "", lastName: "" }],
-        email: "",
-        phone: "",
-        attending: null,
-        dietaryRequirements: "",
-        songRequest: ""
+
+    try {
+      const formData = new FormData(e.target);
+      
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString()
       });
-      // Close form after successful submission
-      setTimeout(() => {
-        onClose();
-        setSubmitStatus(null);
-      }, 1000);
-    }, 2000);
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        // Reset form to initial state with one person
+        setRsvp({
+          people: [{ firstName: "", lastName: "" }],
+          email: "",
+          phone: "",
+          attending: null,
+          dietaryRequirements: "",
+          songRequest: ""
+        });
+        // Close form after successful submission
+        setTimeout(() => {
+          onClose();
+          setSubmitStatus(null);
+        }, 2000);
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -99,6 +115,10 @@ export default function RSVPForm({ isOpen, onClose }) {
 
         <form onSubmit={handleSubmit} name="rsvp-form" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" className="bg-gray-50 p-8 rounded-lg shadow-lg">
           <input type="hidden" name="form-name" value="rsvp-form" />
+          {/* Honeypot field to prevent spam */}
+          <div className="hidden">
+            <input name="bot-field" />
+          </div>
           {/* Hidden field for Netlify submission title */}
           <input type="hidden" name="name" value={`${rsvp.people[0].firstName} ${rsvp.people[0].lastName}`.trim()} />
           
