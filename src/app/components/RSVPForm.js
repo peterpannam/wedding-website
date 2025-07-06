@@ -51,45 +51,29 @@ export default function RSVPForm({ isOpen, onClose }) {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = (e) => {
     setIsSubmitting(true);
     setSubmitStatus(null);
-
-    try {
-      // Let the form submit naturally to Netlify
-      const form = e.target;
-      const formData = new FormData(form);
-      
-      const response = await fetch('/', {
-        method: 'POST',
-        body: formData
+    
+    // Let the form submit naturally to Netlify
+    // The form will redirect to the success page or handle the submission
+    // We'll reset the form state after a delay to show success message
+    setTimeout(() => {
+      setSubmitStatus('success');
+      setRsvp({
+        people: [{ firstName: "", lastName: "" }],
+        email: "",
+        phone: "",
+        attending: null,
+        dietaryRequirements: "",
+        songRequest: ""
       });
-
-      if (response.ok) {
-        setSubmitStatus('success');
-        setRsvp({
-          people: [{ firstName: "", lastName: "" }],
-          email: "",
-          phone: "",
-          attending: null,
-          dietaryRequirements: "",
-          songRequest: ""
-        });
-        // Close form after successful submission
-        setTimeout(() => {
-          onClose();
-          setSubmitStatus(null);
-        }, 1000);
-      } else {
-        setSubmitStatus('error');
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
+      // Close form after successful submission
+      setTimeout(() => {
+        onClose();
+        setSubmitStatus(null);
+      }, 1000);
+    }, 2000);
   };
 
   if (!isOpen) return null;
