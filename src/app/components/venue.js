@@ -4,7 +4,7 @@ const Venue = () => {
 
     return (
         <div className="mt-8 max-w-4xl mx-auto">
-            <h2 className="text-4xl font-lora text-center mb-8">The Venue</h2>
+            <h2 className="text-4xl text-gray-800 font-lora text-center mb-8">The Venue</h2>
             
             {/* Ceremony */}
             <div className="mb-12 p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg mx-2 sm:mx-0">
@@ -68,7 +68,7 @@ const Venue = () => {
             {/* Getting There */}
             <div className="mb-12 p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg mx-2 sm:mx-0">
                 <h3 className="text-2xl font-lora text-blue-800 mb-4">Getting There</h3>
-                <p className="text-sm mb-4">Port Douglas is located in Tropical North Queensland, about an hour&apos;s scenic drive north of Cairns along the Captain Cook Highway.</p>
+                <p className="text-sm mb-4 text-gray-600">Port Douglas is located in Tropical North Queensland, about an hour&apos;s scenic drive north of Cairns along the Captain Cook Highway.</p>
 
                 <div className="grid mb-8 md:grid-cols-3 gap-6">
                     <div>

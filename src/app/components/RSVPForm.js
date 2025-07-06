@@ -57,24 +57,25 @@ export default function RSVPForm({ isOpen, onClose }) {
     setSubmitStatus(null);
 
     try {
-      // Format people data for submission
-      const peopleData = rsvp.people.map((person, index) => ({
-        [`firstName_${index + 1}`]: person.firstName,
-        [`lastName_${index + 1}`]: person.lastName
-      })).reduce((acc, person) => ({ ...acc, ...person }), {});
+      // Let the form submit naturally to Netlify
+      const form = e.target;
+      const formData = new FormData(form);
+      
+      // Add all people data to form
+      rsvp.people.forEach((person, index) => {
+        formData.append(`firstName_${index + 1}`, person.firstName);
+        formData.append(`lastName_${index + 1}`, person.lastName);
+      });
+
+      // Add conditional fields
+      if (rsvp.attending === true) {
+        formData.append('dietaryRequirements', rsvp.dietaryRequirements);
+        formData.append('songRequest', rsvp.songRequest);
+      }
 
       const response = await fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          'form-name': 'rsvp-form',
-          email: rsvp.email,
-          phone: rsvp.phone,
-          attending: rsvp.attending === true ? 'Yes' : rsvp.attending === false ? 'No' : '',
-          dietaryRequirements: rsvp.dietaryRequirements,
-          songRequest: rsvp.songRequest,
-          ...peopleData
-        })
+        body: formData
       });
 
       if (response.ok) {
@@ -128,6 +129,18 @@ export default function RSVPForm({ isOpen, onClose }) {
           <input type="hidden" name="form-name" value="rsvp-form" />
           {/* Hidden field for Netlify submission title */}
           <input type="hidden" name="name" value={`${rsvp.people[0].firstName} ${rsvp.people[0].lastName}`.trim()} />
+          
+          {/* Hidden fields for all people data */}
+          {rsvp.people.map((person, index) => (
+            <div key={`hidden-${index}`}>
+              <input type="hidden" name={`firstName_${index + 1}`} value={person.firstName} />
+              <input type="hidden" name={`lastName_${index + 1}`} value={person.lastName} />
+            </div>
+          ))}
+          
+          {/* Hidden fields for conditional data */}
+          <input type="hidden" name="dietaryRequirements" value={rsvp.dietaryRequirements} />
+          <input type="hidden" name="songRequest" value={rsvp.songRequest} />
           
           {/* People Section */}
           <div className="mb-8">
@@ -276,32 +289,32 @@ export default function RSVPForm({ isOpen, onClose }) {
                 <label htmlFor="dietaryRequirements" className="block text-sm font-medium text-gray-700 mb-2">
                   Dietary Requirements
                 </label>
-                                  <textarea
-                    id="dietaryRequirements"
-                    name="dietaryRequirements"
-                    placeholder="Please let us know of any dietary requirements or allergies"
-                    value={rsvp.dietaryRequirements}
-                    onChange={handleChange}
-                    rows="3"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white"
-                    disabled={isSubmitting}
-                  />
+                <textarea
+                  id="dietaryRequirements"
+                  name="dietaryRequirements"
+                  placeholder="Please let us know of any dietary requirements or allergies"
+                  value={rsvp.dietaryRequirements}
+                  onChange={handleChange}
+                  rows="3"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white"
+                  disabled={isSubmitting}
+                />
               </div>
 
               <div>
                 <label htmlFor="songRequest" className="block text-sm font-medium text-gray-700 mb-2">
                   Song Request (Spotify)
                 </label>
-                                  <textarea
-                    id="songRequest"
-                    name="songRequest"
-                    placeholder="Let us know what gets you in the mood to groove?"
-                    value={rsvp.songRequest}
-                    onChange={handleChange}
-                    rows="2"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white"
-                    disabled={isSubmitting}
-                  />
+                <textarea
+                  id="songRequest"
+                  name="songRequest"
+                  placeholder="Let us know what gets you in the mood to groove?"
+                  value={rsvp.songRequest}
+                  onChange={handleChange}
+                  rows="2"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white"
+                  disabled={isSubmitting}
+                />
               </div>
             </div>
           )}
