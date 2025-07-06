@@ -61,18 +61,6 @@ export default function RSVPForm({ isOpen, onClose }) {
       const form = e.target;
       const formData = new FormData(form);
       
-      // Add all people data to form
-      rsvp.people.forEach((person, index) => {
-        formData.append(`firstName_${index + 1}`, person.firstName);
-        formData.append(`lastName_${index + 1}`, person.lastName);
-      });
-
-      // Add conditional fields
-      if (rsvp.attending === true) {
-        formData.append('dietaryRequirements', rsvp.dietaryRequirements);
-        formData.append('songRequest', rsvp.songRequest);
-      }
-
       const response = await fetch('/', {
         method: 'POST',
         body: formData
@@ -92,7 +80,7 @@ export default function RSVPForm({ isOpen, onClose }) {
         setTimeout(() => {
           onClose();
           setSubmitStatus(null);
-        }, 3000);
+        }, 1000);
       } else {
         setSubmitStatus('error');
       }
@@ -130,18 +118,6 @@ export default function RSVPForm({ isOpen, onClose }) {
           {/* Hidden field for Netlify submission title */}
           <input type="hidden" name="name" value={`${rsvp.people[0].firstName} ${rsvp.people[0].lastName}`.trim()} />
           
-          {/* Hidden fields for all people data */}
-          {rsvp.people.map((person, index) => (
-            <div key={`hidden-${index}`}>
-              <input type="hidden" name={`firstName_${index + 1}`} value={person.firstName} />
-              <input type="hidden" name={`lastName_${index + 1}`} value={person.lastName} />
-            </div>
-          ))}
-          
-          {/* Hidden fields for conditional data */}
-          <input type="hidden" name="dietaryRequirements" value={rsvp.dietaryRequirements} />
-          <input type="hidden" name="songRequest" value={rsvp.songRequest} />
-          
           {/* People Section */}
           <div className="mb-8">
             <h2 className="text-xl font-semibold text-gray-800 mb-6">Guest Information</h2>
@@ -172,7 +148,7 @@ export default function RSVPForm({ isOpen, onClose }) {
                     <input
                       type="text"
                       id={`firstName_${index}`}
-                      name={`firstName_${index}`}
+                      name={`firstName_${index + 1}`}
                       placeholder="First name"
                       value={person.firstName}
                       onChange={(e) => handlePersonChange(index, 'firstName', e.target.value)}
@@ -189,7 +165,7 @@ export default function RSVPForm({ isOpen, onClose }) {
                     <input
                       type="text"
                       id={`lastName_${index}`}
-                      name={`lastName_${index}`}
+                      name={`lastName_${index + 1}`}
                       placeholder="Last name"
                       value={person.lastName}
                       onChange={(e) => handlePersonChange(index, 'lastName', e.target.value)}
@@ -283,41 +259,39 @@ export default function RSVPForm({ isOpen, onClose }) {
             </div>
           </div>
 
-          {rsvp.attending === true && (
-            <div className="mb-8 space-y-6">
-              <div>
-                <label htmlFor="dietaryRequirements" className="block text-sm font-medium text-gray-700 mb-2">
-                  Dietary Requirements
-                </label>
-                <textarea
-                  id="dietaryRequirements"
-                  name="dietaryRequirements"
-                  placeholder="Please let us know of any dietary requirements or allergies"
-                  value={rsvp.dietaryRequirements}
-                  onChange={handleChange}
-                  rows="3"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white"
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="songRequest" className="block text-sm font-medium text-gray-700 mb-2">
-                  Song Request (Spotify)
-                </label>
-                <textarea
-                  id="songRequest"
-                  name="songRequest"
-                  placeholder="Let us know what gets you in the mood to groove?"
-                  value={rsvp.songRequest}
-                  onChange={handleChange}
-                  rows="2"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white"
-                  disabled={isSubmitting}
-                />
-              </div>
+          <div className={`mb-8 space-y-6 ${rsvp.attending !== true ? 'hidden' : ''}`}>
+            <div>
+              <label htmlFor="dietaryRequirements" className="block text-sm font-medium text-gray-700 mb-2">
+                Dietary Requirements
+              </label>
+              <textarea
+                id="dietaryRequirements"
+                name="dietaryRequirements"
+                placeholder="Please let us know of any dietary requirements or allergies"
+                value={rsvp.dietaryRequirements}
+                onChange={handleChange}
+                rows="3"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white"
+                disabled={isSubmitting}
+              />
             </div>
-          )}
+
+            <div>
+              <label htmlFor="songRequest" className="block text-sm font-medium text-gray-700 mb-2">
+                Song Request (Spotify)
+              </label>
+              <textarea
+                id="songRequest"
+                name="songRequest"
+                placeholder="Let us know what gets you in the mood to groove?"
+                value={rsvp.songRequest}
+                onChange={handleChange}
+                rows="2"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white"
+                disabled={isSubmitting}
+              />
+            </div>
+          </div>
 
           <button 
             type="submit" 
