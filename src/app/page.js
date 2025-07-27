@@ -9,10 +9,6 @@ export default function Home() {
   const nextSectionRef = useRef(null);
   const [isRSVPOpen, setIsRSVPOpen] = useState(false);
 
-  // const scrollToNextSection = () => {
-  //   nextSectionRef.current?.scrollIntoView({ behavior: "smooth" });
-  // };
-
   const openRSVP = () => {
     setIsRSVPOpen(true);
     // Smooth scroll to the RSVP section
