@@ -77,10 +77,10 @@ export default function RSVPForm({ isOpen, onClose }) {
           songRequest: ""
         });
         // Close form after successful submission
-        setTimeout(() => {
-          onClose();
-          setSubmitStatus(null);
-        }, 2000);
+        // setTimeout(() => {
+        //   onClose();
+        //   setSubmitStatus(null);
+        // }, 2000);
       } else {
         setSubmitStatus('error');
       }
